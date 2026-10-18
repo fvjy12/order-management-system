@@ -1,3 +1,13 @@
+"""Проверять код на практике"""
+"""Приминить get_orders_by_status чтобы зайдествован на сто проц"""
+"""Переделать delete_order через for enomurate"""
+
+
+
+
+
+
+
 from order_model import Order, OrderStatus
 
 class OrderManager:
