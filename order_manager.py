@@ -1,31 +1,25 @@
 from order_model import Order, OrderStatus
 
-# Модуль order_manager.py — Бизнес-логика
-
 class OrderManager:
     def __init__(self):
-        self.orders = []          # Список для хранения всех заказов
-        self.next_order_id = 1    # Автоматический счетчик ID
+        self.orders = []         
+        self.next_order_id = 1   
 
-    # Создание нового заказа
     def create_order(self, customer_name, product, quantity, price):
         order = Order(self.next_order_id, customer_name, product, quantity, price)
         self.orders.append(order)
         self.next_order_id += 1
         return order
 
-    # Все заказы
     def get_all_orders(self):
         return self.orders
 
-    # Поиск по ID
     def get_order_by_id(self, order_id):
         for order in self.orders:
             if order.order_id == order_id:
                 return order
         return None
 
-    # Смена статуса
     def update_order_status(self, order_id, new_status):
         order = self.get_order_by_id(order_id)
         if order:
@@ -33,7 +27,6 @@ class OrderManager:
             return True
         return False
 
-    # Удаление заказа
     def delete_order(self, order_id):
         order = self.get_order_by_id(order_id)
         if order:
@@ -41,7 +34,6 @@ class OrderManager:
             return True
         return False
 
-    # Добавление заметки
     def add_order_note(self, order_id, note):
         order = self.get_order_by_id(order_id)
         if order:
@@ -49,11 +41,9 @@ class OrderManager:
             return True
         return False
 
-    # Фильтр по статусу
     def get_orders_by_status(self, status):
         return [order for order in self.orders if order.status == status]
 
-    # Сводная статистика (количество по статусам и общая выручка без отмененных)
     def get_statistics(self):
         total_orders = len(self.orders)
         
