@@ -6,7 +6,7 @@ class OrderStatus(Enum):
     PROCESSING = "В обработке"
     SHIPPED = "Отправлен"
     DELIVERED = "Доставлен"
-    CANCELLED = "Отмен"
+    CANCELLED = "Отменен"
 
 class Order:
     def __init__(self, order_id, customer_name, product, quantity, price):

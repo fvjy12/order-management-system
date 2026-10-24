@@ -1,19 +1,12 @@
 """Проверять код на практике"""
-"""Приминить get_orders_by_status чтобы зайдествован на сто проц"""
-"""Переделать delete_order через for enomurate"""
-
-
-
-
-
-
-
+"""Применить get_orders_by_status чтобы задействован на сто проц"""
 from order_model import Order, OrderStatus
+
 
 class OrderManager:
     def __init__(self):
         self.orders = []         
-        self.next_order_id = 1   
+        self.next_order_id = 1    
 
     def create_order(self, customer_name, product, quantity, price):
         order = Order(self.next_order_id, customer_name, product, quantity, price)
@@ -38,10 +31,11 @@ class OrderManager:
         return False
 
     def delete_order(self, order_id):
-        order = self.get_order_by_id(order_id)
-        if order:
-            self.orders.remove(order)
-            return True
+        """Удаление заказа через enumerate по индексам списка"""
+        for index, order in enumerate(self.orders):
+            if order.order_id == order_id:
+                self.orders.pop(index)
+                return True
         return False
 
     def add_order_note(self, order_id, note):
