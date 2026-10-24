@@ -125,10 +125,13 @@ class OrderApp:
         self.status_bar = tk.Label(self.root, text="Готово",relief=tk.SUNKEN,anchor=tk.W)
         self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
 
+    # ---------- Методы-обработчики (раздел 5 документации) ----------
+
     def update_status_bar(self, text):
         self.status_bar.config(text=text)
 
     def get_selected_order_id(self):
+        """Возвращает ID выделенного заказа или None с предупреждением"""
         selection = self.orders_tree.selection()
         if not selection:
             messagebox.showwarning("Внимание", "Сначала выберите заказ в таблице")
@@ -136,6 +139,7 @@ class OrderApp:
         return int(self.orders_tree.item(selection[0])["values"][0])
 
     def create_new_order(self):
+        """Валидация полей формы + создание заказа (try/except)"""
         customer = self.customery_entry.get().strip()
         product = self.product_entry.get().strip()
 
@@ -165,6 +169,7 @@ class OrderApp:
         self.update_status_bar(f"Создан заказ №{order.order_id} для {customer}")
 
     def refresh_orders_list(self):
+        """Перерисовка таблицы заказов"""
         for item in self.orders_tree.get_children():
             self.orders_tree.delete(item)
 
@@ -185,6 +190,7 @@ class OrderApp:
         self.update_status_bar(f"Заказов в системе: {total}")
 
     def change_order_status(self):
+        """Диалог выбора нового статуса (модальное окно, раздел 6.4)"""
         order_id = self.get_selected_order_id()
         if order_id is None:
             return
@@ -219,6 +225,7 @@ class OrderApp:
         tk.Button(buttons_frame, text="Отмена", command=win.destroy).pack(side=tk.LEFT, padx=5)
 
     def add_note_order(self):
+        """Диалог ввода заметки к заказу"""
         order_id = self.get_selected_order_id()
         if order_id is None:
             return
@@ -231,6 +238,7 @@ class OrderApp:
             self.update_status_bar(f"Заметка добавлена к заказу №{order_id}")
 
     def view_order_details(self):
+        """Окно с полной информацией о заказе"""
         order_id = self.get_selected_order_id()
         if order_id is None:
             return
@@ -270,6 +278,7 @@ class OrderApp:
         tk.Button(win, text="Закрыть", command=win.destroy).pack(pady=(0, 12))
 
     def delete_order(self):
+        """Удаление заказа с подтверждением (askyesno)"""
         order_id = self.get_selected_order_id()
         if order_id is None:
             return
@@ -281,6 +290,7 @@ class OrderApp:
                 self.update_status_bar(f"Заказ №{order_id} удалён")
 
     def show_statistics(self):
+        """Окно со сводной статистикой из OrderManager.get_statistics()"""
         stats = self.order_manager.get_statistics()
 
         lines = [f"Всего заказов: {stats['total_orders']}", ""]
@@ -301,6 +311,7 @@ class OrderApp:
         )
 
     def on_close(self):
+        """Подтверждение выхода из приложения"""
         if messagebox.askokcancel("Выход", "Закрыть приложение?"):
             self.root.destroy()
 
